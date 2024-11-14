@@ -9,6 +9,7 @@
  </head>
  <body>
   <script type="module">
+   // Импортируем Three.js с использованием полного пути через CDN
    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.module.js';
    import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.136.0/examples/jsm/loaders/FontLoader.js';
    import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.136.0/examples/jsm/geometries/TextGeometry.js';
@@ -20,7 +21,7 @@
    renderer.setSize(window.innerWidth, window.innerHeight);
    document.body.appendChild(renderer.domElement);
 
-   // Установим свет для лучшего отображения
+   // Устанавливаем свет для лучшего отображения
    const light = new THREE.AmbientLight(0xffffff, 1); // Белый свет
    scene.add(light);
 
@@ -30,17 +31,17 @@
      'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
      function (font) {
        // Создание геометрии текста
-	const geometry = new TextGeometry( 'Hello three.js!', {
-		font: font,
-		size: 80,
-		depth: 5,
-		curveSegments: 12,
-		bevelEnabled: true,
-		bevelThickness: 10,
-		bevelSize: 8,
-		bevelOffset: 0,
-		bevelSegments: 5
-	} );
+       const textGeometry = new TextGeometry('Hello, Three.js!', {
+         font: font,
+         size: 1,
+         height: 0.2, // Толщина текста
+         curveSegments: 12, // Число сегментов для кривизны
+         bevelEnabled: true, // Включаем скос
+         bevelThickness: 0.1, // Толщина скоса
+         bevelSize: 0.1, // Размер скоса
+         bevelOffset: 0, // Сдвиг скоса
+         bevelSegments: 3 // Сегменты скоса
+       });
 
        // Материал для текста
        const textMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
