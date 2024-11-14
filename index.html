@@ -20,16 +20,18 @@
    renderer.setSize(window.innerWidth, window.innerHeight);
    document.body.appendChild(renderer.domElement);
 
+
    const loader = new FontLoader();
    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+     // Создание геометрии текста
      const textGeometry = new TextGeometry('Hello, Three.js!', {
        font: font,
        size: 1,
-       height: 0.1
+       height: 0.1,
      });
      const textMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-     textMesh.position.set(-2, 0, 0); 
+     textMesh.position.set(-3, 0, 0); // Позиция текста
      scene.add(textMesh);
    });
 
