@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Three.js Text</title>
+  <style>
+   body { margin: 0; }
+  </style>
+ </head>
+ <body>
+  <script type="module">
+   import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
+   import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three/examples/jsm/loaders/FontLoader.js';
+   import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three/examples/jsm/geometries/TextGeometry.js';
+
+   const scene = new THREE.Scene();
+   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+   const renderer = new THREE.WebGLRenderer();
+   renderer.setSize(window.innerWidth, window.innerHeight);
+   document.body.appendChild(renderer.domElement);
+
+   const loader = new FontLoader();
+   loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+     const textGeometry = new TextGeometry('Hello, Three.js!', {
+       font: font,
+       size: 1,
+       height: 0.1
+     });
+     const textMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+     const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+     textMesh.position.set(-2, 0, 0); // Позиция текста
+     scene.add(textMesh);
+   });
+
+   camera.position.z = 5;
+
+   function animate() {
+     requestAnimationFrame(animate);
+     renderer.render(scene, camera);
+   }
+
+   animate();
+  </script>
+ </body>
+</html>
