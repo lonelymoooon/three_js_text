@@ -9,9 +9,9 @@
  </head>
  <body>
   <script type="module">
-   import * as THREE from 'https://cdn.jsdelivr.net/npm/three/build/three.module.js';
-   import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three/examples/jsm/loaders/FontLoader.js';
-   import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three/examples/jsm/geometries/TextGeometry.js';
+   import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.136.0/build/three.module.js';
+   import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.136.0/examples/jsm/loaders/FontLoader.js';
+   import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.136.0/examples/jsm/geometries/TextGeometry.js';
 
    const scene = new THREE.Scene();
    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -20,33 +20,45 @@
    renderer.setSize(window.innerWidth, window.innerHeight);
    document.body.appendChild(renderer.domElement);
 
+   // Установим свет для лучшего отображения
+   const light = new THREE.AmbientLight(0xffffff, 1); // Белый свет
+   scene.add(light);
+
    // Загрузка шрифта
    const loader = new FontLoader();
-   loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
-     // Создание геометрии текста
-     const textGeometry = new TextGeometry('Hello, Three.js!', {
-       font: font,
-       size: 1,
-       height: 0.2, // Добавление толщины
-       curveSegments: 12, // Число сегментов для кривизны
-       bevelEnabled: true, // Включение скоса
-       bevelThickness: 0.1, // Толщина скоса
-       bevelSize: 0.1, // Размер скоса
-       bevelOffset: 0, // Сдвиг скоса
-       bevelSegments: 3 // Сегменты скоса
-     });
+   loader.load(
+     'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json',
+     function (font) {
+       // Создание геометрии текста
+       const textGeometry = new TextGeometry('Hello, Three.js!', {
+         font: font,
+         size: 1,
+         height: 0.2, // Толщина текста
+         curveSegments: 12, // Число сегментов для кривизны
+         bevelEnabled: true, // Включаем скос
+         bevelThickness: 0.1, // Толщина скоса
+         bevelSize: 0.1, // Размер скоса
+         bevelOffset: 0, // Сдвиг скоса
+         bevelSegments: 3 // Сегменты скоса
+       });
 
-     // Материал для текста
-     const textMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-     const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+       // Материал для текста
+       const textMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+       const textMesh = new THREE.Mesh(textGeometry, textMaterial);
 
-     // Установка позиции текста
-     textMesh.position.set(-3, 0, 0); 
-     scene.add(textMesh);
-   });
+       // Устанавливаем позицию текста
+       textMesh.position.set(-3, 0, 0); 
+       scene.add(textMesh);
+     },
+     undefined, // Для отслеживания прогресса загрузки, если нужно
+     function (error) { // Обработка ошибок загрузки
+       console.error('Ошибка загрузки шрифта', error);
+     }
+   );
 
    camera.position.z = 5;
 
+   // Функция анимации
    function animate() {
      requestAnimationFrame(animate);
      renderer.render(scene, camera);
